@@ -2,7 +2,7 @@
 
 void print_line(const char *line)
 {
-    printf("[%s]\n", line);
+    printf("%s", line);
 }
 
 int fn_task_one()

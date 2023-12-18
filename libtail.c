@@ -42,7 +42,6 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
                 // 程序后续文件变化，重新打开文件，此时需要从文件头开始
                 fseek(item->file, 0, SEEK_SET);
                 item->lines = 0;
-                printf(" 文件头开始 重新 \n");
             }
             else
             {
@@ -76,7 +75,6 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
     {
         is_read_line = 1;
         l = strlen(item->buf);
-        printf("buf [%s] \n", item->buf);
         if (l < 1)
         {
             continue;
@@ -93,6 +91,7 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
                 }
             }
             item->buf[0] = '\0';
+            l = 0;
         }
         else
         {
@@ -125,7 +124,6 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
                 // 仍然是原先的文件,之所以没有读取到新行，可能：文件没有append,或还未遇到换行,或者文件变小了
                 if (info.st_size < size)
                 {
-                    printf("文件反而变小了\n");
                     // 文件反而变小了：使用truncate或>操作符，或者使用一个小的文件cp到目标文件
                     fseek(item->file, -1, SEEK_END);
                     item->buf[0] = '\0';
