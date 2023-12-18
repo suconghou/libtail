@@ -1,3 +1,4 @@
+#include <string.h>
 #include "libtail.c"
 
 void print_line(const char *line)
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
     {
         tailItem *node = (tailItem *)malloc(sizeof(tailItem));
         const char *fname = argv[i];
-        node->fname = strdup(fname);
+        node->fname = fname;
         node->file = NULL;
         node->buf = (char *)malloc(BUFFER_SIZE);
         node->lines = -1;
@@ -44,7 +45,7 @@ int main(int argc, char *argv[])
         {
             return r;
         }
-        fn_task();
+        usleep(fn_task());
     }
     return 0;
 }

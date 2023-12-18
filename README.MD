@@ -39,3 +39,11 @@ tail -f 简单实现
 ### 错误码
 
 5: 文件行数据太长
+
+
+
+```
+gcc -Wall -std=gnu17 -flto=auto -static-libstdc++ -static-libgcc --static -Wl,-Bstatic,--gc-sections -O3 -ffunction-sections -fdata-sections main.c -o
+ tail
+```
+
