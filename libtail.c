@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 4096
 
 typedef void (*on_read_line)(const char *line);
 typedef int (*on_task_one)(void);
