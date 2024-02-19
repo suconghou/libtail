@@ -52,9 +52,7 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
                 fseek(item->file, -1, SEEK_END);
                 item->lines = -1;
             }
-            struct stat info = {};
-            fstat(fileno(item->file), &info);
-            item->info = info;
+            fstat(fileno(item->file), &item->info);
             item->buf[0] = '\0';
         }
     }
