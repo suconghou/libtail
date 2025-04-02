@@ -132,8 +132,26 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
         }
         else
         {
-            usleep(1000);
-            // 文件可能已被删除或移走，此处不做操作，因为我们持有文件句柄，对方如果仍在此句柄写入数据，我们仍能读取到
+            // 文件可能已被删除或移走, 需要看是否释放文件句柄，避免磁盘空间仍被占用
+            int cleanup = 0;
+            if (fstat(fileno(item->file), &info) == 0)
+            {
+                // 文件句柄仍然有效，我们需要比较st_nlink，如果文件被删除 st_nlink 可能比之前值小
+                cleanup = info.st_nlink < item->info.st_nlink;
+            }
+            else
+            {
+                // 文件句柄无效，可能已被删除
+                cleanup = 1;
+            }
+            if (cleanup)
+            {
+                fclose(item->file);
+                item->file = NULL;
+                item->lines = -2; // 标记后续文件重新打开时，从文件头开始
+                item->buf[0] = '\0';
+            }
+            // 未关闭句柄时，对方如果仍在此句柄写入数据，我们仍能读取到
         }
     }
     else
