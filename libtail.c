@@ -137,7 +137,7 @@ int tail(tailItem *item, on_read_line on_read_line, on_task_one on_task_one)
             if (fstat(fileno(item->file), &info) == 0)
             {
                 // 文件句柄仍然有效，我们需要比较st_nlink，如果文件被删除 st_nlink 可能比之前值小
-                cleanup = info.st_nlink < item->info.st_nlink;
+                cleanup = info.st_nlink < item->info.st_nlink || info.st_nlink == 0;
             }
             else
             {
